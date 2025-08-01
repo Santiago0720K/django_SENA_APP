@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Aprendices SENA - SENA APP{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="titulo-lista">Lista de Aprendices SENA</h2>
+            <div>
+                <span class="badge bg-info fs-6 animate__animated animate__fadeIn">
+                    Total: {{ total_aprendices }} aprendices
+                </span>
+                <a href="{% url 'admin:aprendices_aprendiz_add' %}" class="btn btn-success ms-2 animate__animated animate__fadeInRight">
+                    <i class="bi bi-plus-circle"></i> Nuevo Aprendiz
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if lista_aprendices %}
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive animate__animated animate__fadeInUp">
+            <table class="table table-hover table-borderless shadow rounded">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Documento</th>
+                        <th>Nombre Completo</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Ciudad</th>
+                        <th>Programa</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aprendiz in lista_aprendices %}
+                    <tr class="animate__animated animate__fadeInUp">
+                        <td><strong>{{ aprendiz.documento_identidad }}</strong></td>
+                        <td>{{ aprendiz.nombre }}{{ aprendiz.apellido }}</td>
+                        <td>
+                            <a href="mailto:{{ aprendiz.correo }}">{{ aprendiz.correo }}</a>
+                        </td>
+                        <td>{{ aprendiz.telefono }}</td>
+                        <td>{{ aprendiz.ciudad }}</td>
+                        <td><small class="text-muted">{{ aprendiz.programa }}</small></td>
+                        <td>{{ aprendiz.fecha_nacimiento|date:"d/m/Y" }}</td>
+                        <td>
+                            <a href="{% url 'admin:aprendices_aprendiz_change' aprendiz.pk %}" 
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info animate__animated animate__fadeIn" role="alert">
+            <h4 class="alert-heading">No hay aprendices registrados</h4>
+            <p>Aún no se han registrado aprendices en el sistema.</p>
+            <hr>
+            <p class="mb-0">
+                <a href="{% url 'admin:aprendices_aprendiz_add' %}" class="btn btn-success">
+                    <i class="bi bi-person-plus-fill"></i> Registrar Primer Aprendiz
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
