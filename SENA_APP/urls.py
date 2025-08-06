@@ -7,3 +7,8 @@ urlpatterns = [
     path('', include('instructores.urls')),
     path('', include('programas.urls')),
 ]
+
+# Personalización del panel administrativo
+admin.site.site_header = "Panel Administrativo SENA"
+admin.site.site_title = "SENA APP"
+admin.site.index_title = "Gestión de Aprendices"
