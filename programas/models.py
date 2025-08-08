@@ -35,7 +35,7 @@ class Programa(models.Model):
     requisitos_ingreso = models.TextField(verbose_name="Requisitos de Ingreso")
     centro_formacion = models.CharField(max_length=200, verbose_name="Centro de Formación")
     regional = models.CharField(max_length=100, verbose_name="Regional")
-    estado = models.CharField(max_length=3,choices=ESTADO_CHOICES, default='ACT', verbose_name="Estado")
+    estado = models.CharField(max_length=3, choices=ESTADO_CHOICES, default='ACT', verbose_name="Estado")
     fecha_creacion = models.DateField(verbose_name="Fecha de Creación del Programa")
     fecha_registro = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de Registro")
 
