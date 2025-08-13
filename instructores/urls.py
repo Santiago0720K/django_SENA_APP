@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import InstructorListView, InstructorDetailView
+from . import views
+from .views import InstructorFormView
 
 app_name = 'instructores'
 
 urlpatterns = [
-    path('lista/', InstructorListView.as_view(), name='lista_instructores'),
-    path('detalle/<int:pk>/', InstructorDetailView.as_view(), name='detalle_instructor'),
+    path('instructores/', views.instructores, name='lista_instructores'),
+    path('instructores/instructor/<int:instructor_id>/', views.detalle_instructor, name='detalle_instructor'),
+    path('crear_instructor/', InstructorFormView.as_view(), name='crear_instructor'),
 ]

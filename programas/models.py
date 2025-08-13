@@ -26,7 +26,7 @@ class Programa(models.Model):
     codigo = models.CharField(max_length=20, unique=True, verbose_name="Código del Programa")
     nombre = models.CharField(max_length=200, verbose_name="Nombre del Programa")
     nivel_formacion = models.CharField(max_length=3, choices=NIVEL_FORMACION_CHOICES, verbose_name="Nivel de Formación")
-    modalidad = models.CharField(max_length=3, choices=MODALIDAD_CHOICES, default='PRE', verbose_name="Modalidad")
+    modalidad = models.CharField(max_length=3, choices=MODALIDAD_CHOICES, verbose_name="Modalidad")
     duracion_meses = models.PositiveIntegerField(verbose_name="Duración en Meses")
     duracion_horas = models.PositiveIntegerField(verbose_name="Duración en Horas")
     descripcion = models.TextField(verbose_name="Descripción del Programa")
