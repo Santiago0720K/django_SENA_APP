@@ -1,15 +1,14 @@
 from django.db import models
 
-# Create your models here.
+
 class Aprendiz(models.Model):
-    documento_identidad = models.CharField(max_length=20, unique=True)
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=10, null=True)
-    correo = models.EmailField(null=True)
-    fecha_nacimiento = models.DateField()
-    ciudad = models.CharField(max_length=100, null=True)
-    # programa = models.CharField(max_length=100)
+    documento_identidad = models.CharField(max_length=20, unique=True, verbose_name="Documento de Identidad")
+    nombre = models.CharField(max_length=100, verbose_name="Nombre")
+    apellido = models.CharField(max_length=100, verbose_name="Apellido")
+    telefono = models.CharField(max_length=10, null=True, blank=True, verbose_name="Teléfono")
+    correo = models.EmailField(null=True, blank=True, verbose_name="Correo Electrónico")
+    fecha_nacimiento = models.DateField(verbose_name="Fecha de Nacimiento")
+    ciudad = models.CharField(max_length=100, null=True, blank=True, verbose_name="Ciudad")
 
     class Meta:
         verbose_name = "Aprendiz"
@@ -33,12 +32,27 @@ class Curso(models.Model):
         ('SUS', 'Suspendido'),
     ]
 
-    codigo = models.CharField(max_length=30,unique=True,verbose_name="Código del Curso")
+    codigo = models.CharField(max_length=30, unique=True, verbose_name="Código del Curso")
     nombre = models.CharField(max_length=200, verbose_name="Nombre del Curso")
     programa = models.ForeignKey('programas.Programa', on_delete=models.CASCADE, verbose_name="Programa de Formación")
-    instructor_coordinador = models.ForeignKey('instructores.Instructor', on_delete=models.CASCADE, related_name='cursos_coordinados', verbose_name="Instructor Coordinador")
-    instructores = models.ManyToManyField('instructores.Instructor', through='InstructorCurso', related_name='cursos_impartidos', verbose_name="Instructores")
-    aprendices = models.ManyToManyField(Aprendiz, through='AprendizCurso', related_name='cursos', verbose_name="Aprendices")
+    instructor_coordinador = models.ForeignKey(
+        'instructores.Instructor',
+        on_delete=models.CASCADE,
+        related_name='cursos_coordinados',
+        verbose_name="Instructor Coordinador"
+    )
+    instructores = models.ManyToManyField(
+        'instructores.Instructor',
+        through='InstructorCurso',
+        related_name='cursos_impartidos',
+        verbose_name="Instructores"
+    )
+    aprendices = models.ManyToManyField(
+        Aprendiz,
+        through='AprendizCurso',
+        related_name='cursos',
+        verbose_name="Aprendices"
+    )
     fecha_inicio = models.DateField(verbose_name="Fecha de Inicio")
     fecha_fin = models.DateField(verbose_name="Fecha de Finalización")
     horario = models.CharField(max_length=100, verbose_name="Horario")
@@ -63,6 +77,10 @@ class Curso(models.Model):
         if self.cupos_maximos > 0:
             return (self.aprendices.count() / self.cupos_maximos) * 100
         return 0
+
+    def nombre_programa(self):
+        """Devuelve el nombre del programa asociado al curso."""
+        return self.programa.nombre if self.programa else ""
 
 
 class InstructorCurso(models.Model):
@@ -93,7 +111,13 @@ class AprendizCurso(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     fecha_inscripcion = models.DateField(auto_now_add=True, verbose_name="Fecha de Inscripción")
     estado = models.CharField(max_length=3, choices=ESTADO_CHOICES, default='INS', verbose_name="Estado en el Curso")
-    nota_final = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True, verbose_name="Nota Final")
+    nota_final = models.DecimalField(
+        max_digits=4,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Nota Final"
+    )
     observaciones = models.TextField(blank=True, null=True, verbose_name="Observaciones")
 
     class Meta:
