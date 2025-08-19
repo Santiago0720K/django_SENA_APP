@@ -20,7 +20,7 @@ def registrar_aula(request):
             return HttpResponse("Aula registrada exitosamente.")
     else:
         form = AulasForm()
-    template = loader.get_template('registro_aula.html')
+    template = loader.get_template('registro_aulas.html')
     context = {
         'form': form,
     }
