@@ -2,20 +2,20 @@ from django.db import models
 
 class Aulas(models.Model):
     TIPO_AULA_CHOICES = [
-        ('Aula Teórica'),
-        ('Laboratorio'),
-        ('Taller'),
-        ('Auditorio'),
-        ('Sala de computo'),
-        ('Biblioteca'),
-        ('Multipropósito'),
+        ('Aula Teórica', 'Aula Teórica'),
+        ('Laboratorio', 'Laboratorio'),
+        ('Taller', 'Taller'),
+        ('Auditorio', 'Auditorio'),
+        ('Sala de computo', 'Sala de Cómputo'),
+        ('Biblioteca', 'Biblioteca'),
+        ('Multipropósito', 'Multipropósito'),
     ]
     
     UBICACION_CHOICES = [
-        ('Centro Minero'),
-        ('CEDEAGRO'),
-        ('CEGAFE'),
-        ('Sede Sogamoso'),
+        ('Centro Minero', 'Centro Minero'),
+        ('CEDEAGRO', 'CEDEAGRO'),
+        ('CEGAFE', 'CEGAFE'),
+        ('Sede Sogamoso', 'Sede Sogamoso'),
     ]
     
     numero_aula = models.CharField(max_length=10, unique=True, verbose_name='Número de Aula')
